@@ -4,3 +4,5 @@ const routerProducts = require('./routerProducts');
 const router = express.Router();
 
 router.use('/product', routerProducts);
+
+module.exports = router;
