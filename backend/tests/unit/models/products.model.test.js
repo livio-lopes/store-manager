@@ -7,7 +7,7 @@ const productsMocks = require('../mocks/productsMocks');
 const { expect } = chai;
 
 describe('Testing Model Layer', function () {
-  it('Tests return from getAllProducts in model layer', async function () {
+  it('Test return from getAllProducts on model layer', async function () {
     sinon.stub(connection, 'execute').resolves([productsMocks.getAllProducts, []]);
     const resultModel = await productsModel.getAllProducts();
     expect(resultModel).to.be.equal(productsMocks.getAllProducts);
