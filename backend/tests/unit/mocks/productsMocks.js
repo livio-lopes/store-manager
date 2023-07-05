@@ -13,4 +13,9 @@
     },
   ];
 
-module.exports = { getAllProducts };
+const getProductById3 = {
+  id: 3,
+  name: 'Escudo do CapitÃ£o AmÃ©rica',
+};
+
+module.exports = { getAllProducts, getProductById3 };
