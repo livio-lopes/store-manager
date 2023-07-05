@@ -6,7 +6,7 @@ const productsMocks = require('../mocks/productsMocks');
 
 const { expect } = chai;
 
-describe('Testing Services Layer', function () {
+describe('Testing Products on Services Layer', function () {
   it('Test return from getAllProducts on service layer', async function () {
     sinon.stub(productsModel, 'getAllProducts').resolves(productsMocks.getAllProducts);
     const resultService = await productsServices.getAllProducts();
