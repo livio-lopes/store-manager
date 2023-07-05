@@ -9,12 +9,11 @@ const { expect } = chai;
 
 const OK = 200;
 const NOT_FOUND = 404;
-
-const massgeNotFound = { message: 'Product not found' };
+const massageNotFound = { message: 'Product not found' };
 
 chai.use(sinonChai);
 
-describe('Test Controller Layer', function () {
+describe('Test Products on Controller Layer', function () {
     it('Test return from getAllProducts on controller layer', async function () {
       const req = {};
       const res = {
@@ -46,7 +45,7 @@ describe('Test Controller Layer', function () {
       sinon.stub(productsServices, 'getProductById').resolves(undefined);
       await productsController.getProductById(req, res);
       expect(res.status).to.have.been.calledWith(NOT_FOUND);
-      expect(res.json).to.have.been.calledWith(massgeNotFound);
+      expect(res.json).to.have.been.calledWith(massageNotFound);
     });
     afterEach(function () {
       sinon.restore();
