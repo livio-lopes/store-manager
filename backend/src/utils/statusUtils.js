@@ -5,6 +5,7 @@ const statusCode = {
 
 const statusMessage = {
   PRODUCT_NOT_FOUND: { message: 'Product not found' },
+  SALES_NOT_FOUND: { message: 'Sale not found' },
 };
 
 module.exports = {

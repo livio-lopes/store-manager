@@ -8,4 +8,13 @@ const getAllSales = async () => {
   return sales;
 };
 
-module.exports = { getAllSales };
+const getSalesById = async (id) => {
+  const [[sale]] = await connection
+  .execute(`SELECT * FROM ${storeManager(SALES)} WHERE id =?`, [id]);
+  return sale;
+};
+
+module.exports = {
+  getAllSales,
+  getSalesById, 
+};
