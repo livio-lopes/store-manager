@@ -33,8 +33,11 @@ describe('Testing Products on Services Layer', function () {
     const insertId = 4;
     sinon.stub(productsModel, 'addProduct').resolves(insertId);
     const nameProduct = 'Sandalha';
+    const newProduct = { id: insertId, name: nameProduct };
     const resultService = await productsServices.addProduct(nameProduct);
-    expect(resultService).to.be.equal(insertId);
+    expect(resultService).to.be.deep.equal(newProduct);
+    expect(resultService).to.haveOwnProperty('id');
+    expect(resultService).to.haveOwnProperty('name');
   });
   afterEach(function () {
     sinon.restore();
