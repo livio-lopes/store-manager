@@ -18,7 +18,6 @@ describe('Testing Sales on service layer', function () {
     sinon.stub(salesModel, 'getSalesById').resolves(salesMocks.getServiceSalesById1);
     const ID = 1;
     const resultService = await salesServices.getSalesById(ID);
-    console.log('service', resultService);
     expect(resultService).to.be.deep.equal(salesMocks.getServiceSalesById1);
     expect(resultService).to.be.instanceOf(Array);
     expect(resultService).to.be.length(2);

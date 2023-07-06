@@ -32,10 +32,10 @@ describe('Test Sales on controller layer', function () {
       status: sinon.stub().returnsThis(),
       json: sinon.stub(),
     };
-    sinon.stub(salesServices, 'getSalesById').resolves(salesMocks.getAllSales[1]);
+    sinon.stub(salesServices, 'getSalesById').resolves(salesMocks.getServiceSalesById1);
     await salesController.getSalesById(req, res);
     expect(res.status).to.have.been.calledWith(OK);
-    expect(res.json).to.have.been.calledWith(salesMocks.getAllSales[1]);
+    expect(res.json).to.have.been.calledWith(salesMocks.getServiceSalesById1);
   });
    it('Test return from getSalesById with id = 0', async function () {
     const req = { params: { id: '0' } };
