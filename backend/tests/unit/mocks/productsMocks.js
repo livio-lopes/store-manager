@@ -18,4 +18,17 @@ const getProductById3 = {
   name: 'Escudo do CapitÃ£o AmÃ©rica',
 };
 
-module.exports = { getAllProducts, getProductById3 };
+const infoConectAddProduct = {
+  fieldCount: 0,
+  affectedRows: 1,
+  insertId: 4,
+  info: '',
+  serverStatus: 2,
+  warningStatus: 0,
+};
+
+module.exports = { 
+  getAllProducts,
+  getProductById3,
+  infoConectAddProduct,
+  };

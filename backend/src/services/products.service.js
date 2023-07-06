@@ -16,7 +16,7 @@ const getProductById = async (id) => {
 };
 
 const addProduct = async (name) => {
-  const insertId = await productsModel.setNewProduct(name);
+  const insertId = await productsModel.addProduct(name);
   return insertId;
 };
 module.exports = {

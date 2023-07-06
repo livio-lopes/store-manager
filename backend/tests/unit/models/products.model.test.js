@@ -28,6 +28,13 @@ describe('Testing Products on Model Layer', function () {
     const resultModel = await productsModel.getProductById(ID);
     expect(resultModel).to.be.equal(undefined);
   });
+  it('Test if new product was registered in the database', async function () {
+    sinon.stub(connection, 'execute').resolves([productsMocks.infoConectAddProduct]);
+    const productName = 'Sandalha';
+    const ID = 4;
+    const insertId = await productsModel.addProduct(productName);
+    expect(insertId).to.be.equal(ID);
+  });
   afterEach(function () {
     sinon.restore();
   });
