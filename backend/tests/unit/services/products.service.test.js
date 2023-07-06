@@ -29,6 +29,13 @@ describe('Testing Products on Services Layer', function () {
     const resultService = await productsServices.getProductById(ID);
     expect(resultService).to.be.equal(undefined);
   });
+  it('Test return addProduct', async function () {
+    const insertId = 4;
+    sinon.stub(productsModel, 'addProduct').resolves(insertId);
+    const nameProduct = 'Sandalha';
+    const resultService = await productsServices.addProduct(nameProduct);
+    expect(resultService).to.be.equal(insertId);
+  });
   afterEach(function () {
     sinon.restore();
   });
