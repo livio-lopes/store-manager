@@ -32,6 +32,19 @@ describe('Testing Sales on model layer', function () {
     const resultModel = await salesModel.getSalesById(ID);
     expect(resultModel).to.be.length(0);
   });
+  it('Test return setSaleDataTime', async function () {
+    const insertId = 3;
+    sinon.stub(connection, 'execute').resolves([{ insertId }]);
+    const resultModel = await salesModel.setSaleDataTime();
+    expect(resultModel).to.be.equal(insertId);
+  });
+  it('Test return setSalesProducts', async function () {
+    const insertId = 4;
+    sinon.stub(connection, 'execute').resolves([{ insertId }]);
+    const newSale = { saleId: 3, productId: 1, quantity: 1 };
+    const resultModel = await salesModel.setSalesProducts(newSale);
+    expect(resultModel).to.be.equal(insertId);
+  });
   afterEach(function () {
     sinon.restore();
   });
