@@ -1,16 +1,13 @@
 const connection = require('./connection');
-const storeManager = require('./utils/storeManagerTable');
-
-const PRODUCTS = 'products';
 
 const getAllProducts = async () => {
-  const [products] = await connection.execute(`SELECT * FROM ${storeManager(PRODUCTS)}`);
+  const [products] = await connection.execute('SELECT * FROM StoreManager.products');
   return products;
 };
 
 const getProductById = async (id) => {
   const [[product]] = await connection
-  .execute(`SELECT * FROM ${storeManager(PRODUCTS)} WHERE id =?`, [id]);
+  .execute('SELECT * FROM StoreManager.products WHERE id =?', [id]);
   return product;
 };
 
