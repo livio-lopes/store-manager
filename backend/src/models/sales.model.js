@@ -1,7 +1,4 @@
 const connection = require('./connection');
-// const storeManager = require('./utils/storeManagerTable');
-
-// const SALES = 'sales';
 
 const getAllSales = async () => {
   const [sales] = await connection.execute(`SELECT sp.sale_id AS saleId,
@@ -24,7 +21,22 @@ ORDER BY saleId, productId;
   return sale;
 };
 
+const setSaleDataTime = async () => {
+  const [{ insertId }] = await connection
+  .execute('INSERT INTO StoreManager.sales (date) VALUES (NOW());');
+  return insertId;
+};
+
+const setSalesProducts = async (saleId, productId, quantity) => {
+  const [{ insertId }] = await connection
+  .execute(`INSERT INTO StoreManager.sales_products (sale_id,product_id, quantity)
+  VALUES (?,?,?); `, [saleId, productId, quantity]);
+  return insertId;
+};
+
 module.exports = {
   getAllSales,
-  getSalesById, 
+  getSalesById,
+  setSaleDataTime,
+  setSalesProducts, 
 };
