@@ -27,7 +27,8 @@ const setSaleDataTime = async () => {
   return insertId;
 };
 
-const setSalesProducts = async (saleId, productId, quantity) => {
+const setSalesProducts = async (saleObj) => {
+  const { saleId, productId, quantity } = saleObj;
   const [{ insertId }] = await connection
   .execute(`INSERT INTO StoreManager.sales_products (sale_id,product_id, quantity)
   VALUES (?,?,?); `, [saleId, productId, quantity]);
