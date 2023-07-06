@@ -12,19 +12,23 @@ describe('Testing Sales on service layer', function () {
     const resultService = await salesModel.getAllSales();
     expect(resultService).to.be.equal(salesMocks.getAllSales);
     expect(resultService).to.be.instanceOf(Array);
-    expect(resultService).to.be.length(2);
+    expect(resultService).to.be.length(3);
   });
-  it('Test return from getSalesById with id = 2', async function () {
-    sinon.stub(salesModel, 'getSalesById').resolves(salesMocks.getAllSales[1]);
-    const ID = 2;
+  it('Test return from getSalesById with id = 1', async function () {
+    sinon.stub(salesModel, 'getSalesById').resolves(salesMocks.getServiceSalesById1);
+    const ID = 1;
     const resultService = await salesServices.getSalesById(ID);
-    expect(resultService).to.be.equal(salesMocks.getAllSales[1]);
-    expect(resultService).to.be.instanceOf(Object);
-    expect(resultService).to.haveOwnProperty('id');
-    expect(resultService).to.haveOwnProperty('date');
+    console.log('service', resultService);
+    expect(resultService).to.be.deep.equal(salesMocks.getServiceSalesById1);
+    expect(resultService).to.be.instanceOf(Array);
+    expect(resultService).to.be.length(2);
+    expect(resultService[0]).not.have.property('saleId');
+    expect(resultService[0]).to.haveOwnProperty('productId');
+    expect(resultService[0]).to.haveOwnProperty('date');
+    expect(resultService[0]).to.haveOwnProperty('quantity');
   });
   it('Test return from getSalesById with id = 0', async function () {
-    sinon.stub(salesModel, 'getSalesById').resolves(undefined);
+    sinon.stub(salesModel, 'getSalesById').resolves([]);
     const ID = 0;
     const resultService = await salesServices.getSalesById(ID);
     expect(resultService).to.be.equal(undefined);

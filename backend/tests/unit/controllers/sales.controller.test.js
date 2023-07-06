@@ -26,8 +26,8 @@ describe('Test Sales on controller layer', function () {
     expect(res.status).to.have.been.calledWith(OK);
     expect(res.json).to.have.been.calledWith(salesMocks.getAllSales);
   });
-  it('Test return from getSalesById with id = 2', async function () {
-    const req = { params: { id: '2' } };
+  it('Test return from getSalesById with id = 1', async function () {
+    const req = { params: { id: '1' } };
     const res = {
       status: sinon.stub().returnsThis(),
       json: sinon.stub(),
