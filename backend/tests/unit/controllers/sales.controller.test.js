@@ -9,6 +9,7 @@ const salesMocks = require('../mocks/salesMocks');
 const { expect } = chai;
 
 const OK = 200;
+const CREATED = 201;
 const NOT_FOUND = 404;
 const massageNotFound = { message: 'Sale not found' };
 
@@ -47,6 +48,18 @@ describe('Test Sales on controller layer', function () {
     await salesController.getSalesById(req, res);
     expect(res.status).to.have.been.calledWith(NOT_FOUND);
     expect(res.json).to.have.been.calledWith(massageNotFound);
+  });
+  it('Test sales registred successfully', async function () {
+    const req = { body: [{ productId: 1, quantity: 1 },
+       { productId: 2, quantity: 5 }] };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    sinon.stub(salesServices, 'registerSales').resolves(salesMocks.registerSalesController);
+    await salesController.registerSales(req, res);
+    expect(res.status).to.have.been.calledWith(CREATED);
+    expect(res.json).to.have.been.calledWith(salesMocks.registerSalesController);
   });
   afterEach(function () {
     sinon.restore();
