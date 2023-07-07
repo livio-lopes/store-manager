@@ -32,6 +32,29 @@ describe('Testing Sales on service layer', function () {
     const resultService = await salesServices.getSalesById(ID);
     expect(resultService).to.be.equal(undefined);
   });
+  it('Test return registerSales', async function () {
+    const insertIdSaleDataTime = 3;
+    sinon.stub(salesModel, 'setSaleDataTime').resolves(insertIdSaleDataTime);
+    sinon.stub(salesModel, 'setSalesProducts').resolves();
+    const sales = [
+      {
+        productId: 1,
+        quantity: 1,
+      },
+      {
+        productId: 2,
+        quantity: 5,
+      },
+    ];
+    const resultService = await salesServices.registerSales(sales);
+    expect(resultService).to.be.haveOwnProperty('id');
+    expect(resultService).to.be.haveOwnProperty('itemsSold');
+    expect(resultService.id).to.be.equal(3);
+    expect(resultService.itemsSold).to.be.instanceOf(Array);
+    expect(resultService.itemsSold).to.be.length(2);
+    expect(resultService.itemsSold[0]).to.be.haveOwnProperty('productId');
+    expect(resultService.itemsSold[0]).to.be.haveOwnProperty('quantity');
+  });
   afterEach(function () {
     sinon.restore();
   });
