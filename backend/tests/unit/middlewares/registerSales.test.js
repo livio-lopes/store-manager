@@ -1,0 +1,135 @@
+const chai = require('chai');
+const sinon = require('sinon');
+const sinonChai = require('sinon-chai');
+const registerSales = require('../../../src/middlewares/registerSales');
+
+const { expect } = chai;
+chai.use(sinonChai);
+const BAD_REQUEST = 400;
+const UNPROCESSABLE = 422;
+const NOT_FOUND = 404;
+const PRODUCTID_NOTFOUND = { message: '"productId" is required' };
+const QUANTITY_NOTFOUND = { message: '"quantity" is required' };
+const UNPROCESSABLE_QUANTITY = { message: '"quantity" must be greater than or equal to 1' };
+const PRODUCT_NOTFOUND = { message: 'Product not found' };
+
+describe('Test middleware registerSales', function () {
+  it('Test if function is called', async function () {
+    const req = { body: [
+      {
+        productId: 1,
+        quantity: 1,
+      },
+      {
+        productId: 2,
+        quantity: 5,
+      },
+    ] };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    const next = sinon.stub().returns();
+    await registerSales(req, res, next);
+    expect(next).to.have.been.calledWith();
+  });
+  it('Tests if it is not possible to register sale without productID', async function () {
+    const req = { body: [
+      {
+        quantity: 1,
+      },
+    ] };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    const next = sinon.stub().returns();
+    await registerSales(req, res, next);
+    expect(res.status).to.have.been.calledWith(BAD_REQUEST);
+    expect(res.json).to.have.been.calledWith(PRODUCTID_NOTFOUND);
+  });
+  it('Test if it is not possible to register sale without quantity', async function () {
+    const req = { body: [
+      {
+        productId: 1,
+      },
+
+    ] };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    const next = sinon.stub().returns();
+    await registerSales(req, res, next);
+    expect(res.status).to.have.been.calledWith(BAD_REQUEST);
+    expect(res.json).to.have.been.calledWith(QUANTITY_NOTFOUND);
+  });
+  it('Test if it is not possible to register sale quantity = 0', async function () {
+    const req = { body: [
+      {
+        productId: 1,
+        quantity: 0,
+      },
+    ] };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    const next = sinon.stub().returns();
+    await registerSales(req, res, next);
+    expect(res.status).to.have.been.calledWith(UNPROCESSABLE);
+    expect(res.json).to.have.been.calledWith(UNPROCESSABLE_QUANTITY);
+  });  
+  it('Test if it is not possible to register sale quantity < 0', async function () {
+    const req = { body: [
+      {
+        productId: 1,
+        quantity: -1,
+      },
+    ] };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    const next = sinon.stub().returns();
+    await registerSales(req, res, next);
+    expect(res.status).to.have.been.calledWith(UNPROCESSABLE);
+    expect(res.json).to.have.been.calledWith(UNPROCESSABLE_QUANTITY);
+  });
+  it('Test if it is not possible to register sale when productId not found', async function () {
+    const req = { body: [
+      {
+        productId: 0,
+        quantity: 1,
+      },
+    ] };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    const next = sinon.stub().returns();
+    await registerSales(req, res, next);
+    expect(res.status).to.have.been.calledWith(NOT_FOUND);
+    expect(res.json).to.have.been.calledWith(PRODUCT_NOTFOUND);
+  });
+  it('Test if it is not possible to register sale when one productId not found', async function () {
+    const req = { body: [
+      {
+        productId: 1,
+        quantity: 1,
+      },
+      {
+        productId: 0,
+        quantity: 2,
+      },
+    ] };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    const next = sinon.stub().returns();
+    await registerSales(req, res, next);
+    expect(res.status).to.have.been.calledWith(NOT_FOUND);
+    expect(res.json).to.have.been.calledWith(PRODUCT_NOTFOUND);
+  });
+});
