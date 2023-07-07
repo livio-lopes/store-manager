@@ -13,6 +13,10 @@ describe('Testing Sales on service layer', function () {
     expect(resultService).to.be.equal(salesMocks.getAllSales);
     expect(resultService).to.be.instanceOf(Array);
     expect(resultService).to.be.length(3);
+    expect(resultService[0]).to.haveOwnProperty('saleId');
+    expect(resultService[0]).to.haveOwnProperty('date');
+    expect(resultService[0]).to.haveOwnProperty('productId');
+    expect(resultService[0]).to.haveOwnProperty('quantity');
   });
   it('Test return from getSalesById with id = 1', async function () {
     sinon.stub(salesModel, 'getSalesById').resolves(salesMocks.getServiceSalesById1);
