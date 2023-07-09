@@ -39,6 +39,22 @@ describe('Testing Products on Services Layer', function () {
     expect(resultService).to.haveOwnProperty('id');
     expect(resultService).to.haveOwnProperty('name');
   });
+  it('Test updateProductById if product not found', async function () {
+    sinon.stub(productsModel, 'getProductById').resolves(undefined);
+    sinon.stub(productsModel, 'updateProductById').resolves();
+    const id = 0;
+    const name = 'Sandalha';
+    const resultService = await productsModel.updateProductById(id, name);
+    expect(resultService).to.be.equal(undefined);
+  });
+  it('Test updateProductById if product is updated', async function () {
+    sinon.stub(productsModel, 'getProductById').resolves(productsMocks.getProductById3);
+    sinon.stub(productsModel, 'updateProductById').resolves();
+    const id = '3';
+    const name = 'Sandalha';
+    const resultService = await productsServices.updateProductById(id, name);
+    expect(resultService).to.be.deep.equal({ id: Number(id), name });
+  });
   afterEach(function () {
     sinon.restore();
   });
