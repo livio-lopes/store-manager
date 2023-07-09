@@ -35,6 +35,13 @@ describe('Testing Products on Model Layer', function () {
     const insertId = await productsModel.addProduct(productName);
     expect(insertId).to.be.equal(ID);
   });
+  it('Test if has chagendRows !== 0 on return updateProductById', async function () {
+    sinon.stub(connection, 'execute').resolves([{ changedRows: 1 }]);
+    const name = 'BatCarro';
+    const id = 2;
+    const resultModel = await productsModel.updateProductById(id, name);
+    expect(resultModel).to.be.equal(1);
+  });
   afterEach(function () {
     sinon.restore();
   });
