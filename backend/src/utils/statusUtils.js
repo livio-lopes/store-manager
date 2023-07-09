@@ -13,6 +13,7 @@ const statusMessage = {
   BAD_REQUEST_NAME_INVALID: { message: '"name" length must be at least 5 characters long' },
   PRODUCTID_NOTFOUND: { message: '"productId" is required' },
   QUANTITY_NOTFOUND: { message: '"quantity" is required' },
+  QUANTITY_INVALID: { message: '"quantity" must be greater than or equal to 1' },
 };
 
 module.exports = {
