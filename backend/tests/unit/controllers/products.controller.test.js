@@ -60,6 +60,34 @@ describe('Test Products on Controller Layer', function () {
       expect(res.status).to.have.been.calledWith(CREATED);
       expect(res.json).to.have.been.calledWith(mockNewProduct);
     });
+    it('Test updateProductById case product not found', async function () {
+      const req = { body: { name: 'Sandalha' },
+                    params: { id: '0' } };
+      const res = {
+        status: sinon.stub().returnsThis(),
+        json: sinon.stub(),
+      };
+      sinon.stub(productsServices, 'updateProductById').resolves(undefined);
+      await productsController.updateProductById(req, res);
+      expect(res.status).to.have.been.calledWith(NOT_FOUND);
+      expect(res.json).to.have.been.calledWith(massageNotFound);
+    });
+    it('Test updateProductById case product is updated', async function () {
+      const req = { body: { name: 'Sandalha' },
+                    params: { id: '1' } };
+      const res = {
+        status: sinon.stub().returnsThis(),
+        json: sinon.stub(),
+      };
+      const mockUpdatedProduct = {
+        id: 1,
+        name: 'Sandalha',
+      };
+      sinon.stub(productsServices, 'updateProductById').resolves(mockUpdatedProduct);
+      await productsController.updateProductById(req, res);
+      expect(res.status).to.have.been.calledWith(OK);
+      expect(res.json).to.have.been.calledWith(mockUpdatedProduct);
+    });
     afterEach(function () {
       sinon.restore();
     });
