@@ -44,7 +44,7 @@ describe('Testing Products on Services Layer', function () {
     sinon.stub(productsModel, 'updateProductById').resolves();
     const id = 0;
     const name = 'Sandalha';
-    const resultService = await productsModel.updateProductById(id, name);
+    const resultService = await productsServices.updateProductById(id, name);
     expect(resultService).to.be.equal(undefined);
   });
   it('Test updateProductById if product is updated', async function () {
@@ -54,6 +54,19 @@ describe('Testing Products on Services Layer', function () {
     const name = 'Sandalha';
     const resultService = await productsServices.updateProductById(id, name);
     expect(resultService).to.be.deep.equal({ id: Number(id), name });
+  });
+  it('Test deleteProductById if not delete product not found', async function () {
+    sinon.stub(productsModel, 'getProductById').resolves(undefined);
+    const id = 0;
+    const resultService = await productsServices.deleteProductById(id);
+    expect(resultService).to.be.equal(undefined);
+  });
+  it('Test deleteProductById if product is deleted', async function () {
+    sinon.stub(productsModel, 'getProductById').resolves(productsMocks.getProductById3);
+    sinon.stub(productsModel, 'deleteProductById').resolves(1);
+    const id = 3;
+    const resultService = await productsServices.deleteProductById(id);
+    expect(resultService).to.be.equal(1);
   });
   afterEach(function () {
     sinon.restore();
