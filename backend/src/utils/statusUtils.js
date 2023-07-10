@@ -4,6 +4,7 @@ const statusCode = {
   CREATED: 201,
   BAD_REQUEST: 400,
   UNPROCESSABLE: 422,
+  NO_CONTENT: 204,
 };
 
 const statusMessage = {
