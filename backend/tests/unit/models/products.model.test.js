@@ -42,6 +42,12 @@ describe('Testing Products on Model Layer', function () {
     const resultModel = await productsModel.updateProductById(id, name);
     expect(resultModel).to.be.equal(1);
   });
+  it('Test if products is deleted', async function () {
+    sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+    const id = 2;
+    const resultModel = await productsModel.deleteProductById(id);
+    expect(resultModel).to.be.equal(1);
+  });
   afterEach(function () {
     sinon.restore();
   });
