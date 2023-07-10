@@ -30,8 +30,8 @@ const updateProductById = async (id, name) => {
 const deleteProductById = async (id) => {
   const product = await productsModel.getProductById(id);
   if (!product) return undefined;
-  const changedRows = await productsModel.deleteProductById(id);
-  return changedRows;
+  const affectedRows = await productsModel.deleteProductById(id);
+  return affectedRows;
 };
 
 module.exports = {
