@@ -10,6 +10,7 @@ const { expect } = chai;
 const OK = 200;
 const NOT_FOUND = 404;
 const CREATED = 201;
+const NO_CONTENT = 204;
 const massageNotFound = { message: 'Product not found' };
 
 chai.use(sinonChai);
@@ -87,6 +88,27 @@ describe('Test Products on Controller Layer', function () {
       await productsController.updateProductById(req, res);
       expect(res.status).to.have.been.calledWith(OK);
       expect(res.json).to.have.been.calledWith(mockUpdatedProduct);
+    });
+    it('Test deleteProductById case product not found', async function () {
+      const req = { params: { id: '0' } };
+      const res = {
+        status: sinon.stub().returnsThis(),
+        json: sinon.stub(),
+      };
+      sinon.stub(productsServices, 'deleteProductById').resolves(undefined);
+      await productsController.deleteProductById(req, res);
+      expect(res.status).to.have.been.calledWith(NOT_FOUND);
+      expect(res.json).to.have.been.calledWith(massageNotFound);
+    });
+    it('Test deleteProductById case product is deleted', async function () {
+      const req = { params: { id: '1' } };
+      const res = {
+        status: sinon.stub().returnsThis(),
+        json: sinon.stub(),
+      };
+      sinon.stub(productsServices, 'deleteProductById').resolves(1);
+      await productsController.deleteProductById(req, res);
+      expect(res.status).to.have.been.calledWith(NO_CONTENT);
     });
     afterEach(function () {
       sinon.restore();
