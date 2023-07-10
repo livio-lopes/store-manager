@@ -104,11 +104,12 @@ describe('Test Products on Controller Layer', function () {
       const req = { params: { id: '1' } };
       const res = {
         status: sinon.stub().returnsThis(),
-        json: sinon.stub(),
+        end: sinon.stub(),
       };
       sinon.stub(productsServices, 'deleteProductById').resolves(1);
       await productsController.deleteProductById(req, res);
       expect(res.status).to.have.been.calledWith(NO_CONTENT);
+      expect(res.end).to.have.been.calledWith();
     });
     afterEach(function () {
       sinon.restore();
