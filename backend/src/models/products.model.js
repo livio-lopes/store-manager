@@ -6,6 +6,7 @@ const insertProduct = 'INSERT INTO StoreManager.products (name) VALUES (?)';
 const updateProduct = `UPDATE StoreManager.products
 SET name = ?
 WHERE id = ?;`;
+const deleteProduct = 'DELETE FROM StoreManager.products WHERE id = ?;';
 
 const getAllProducts = async () => {
   const [products] = await connection.execute(selectAllProduct);
@@ -27,9 +28,16 @@ const updateProductById = async (id, name) => {
   return changedRows;
 };
 
+const deleteProductById = async (id) => {
+  const [test] = await connection.execute(deleteProduct, [id]);
+  console.log(test);
+  return test;
+};
+
 module.exports = {
   getAllProducts,
   getProductById,
   addProduct,
   updateProductById,
+  deleteProductById,
 };
