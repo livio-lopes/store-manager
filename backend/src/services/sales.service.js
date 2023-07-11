@@ -25,8 +25,9 @@ const deleteSalesById = async (id) => {
   if (salesFinded.length === 0) {
     return undefined;
   }
-  const affectedRows = await salesModel.deleteSalesById(id);
-  return affectedRows;
+  const salesTables = await salesModel.deleteSalesById(id);
+  const salesProductsTables = await salesModel.deleteSalesProductsById(id);
+  return { salesTables, salesProductsTables };
 };
 
 module.exports = {

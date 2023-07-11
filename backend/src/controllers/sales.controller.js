@@ -20,8 +20,18 @@ const registerSales = async (req, res) => {
   return res.status(statusCode.CREATED).json(salesRegistred);
 };
 
+const deleteSalesById = async (req, res) => {
+  const { id } = req.params;
+  const deletedSales = await salesService.deleteSalesById(id);
+  if (!deletedSales) {
+    return res.status(statusCode.NOT_FOUND).json(statusMessage.SALES_NOT_FOUND);
+  }
+  return res.status(statusCode.NO_CONTENT).end();
+};
+
 module.exports = { 
   getAllSales,
   getSalesById,
   registerSales,
+  deleteSalesById,
  };
