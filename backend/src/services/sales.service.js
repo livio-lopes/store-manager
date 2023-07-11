@@ -20,8 +20,18 @@ const registerSales = async (sales) => {
   };
 };
 
+const deleteSalesById = async (id) => {
+  const salesFinded = await salesModel.getSalesById(id);
+  if (salesFinded.length === 0) {
+    return undefined;
+  }
+  const affectedRows = await salesModel.deleteSalesById(id);
+  return affectedRows;
+};
+
 module.exports = {
   getAllSales,
   getSalesById,
   registerSales,
+  deleteSalesById,
 };
