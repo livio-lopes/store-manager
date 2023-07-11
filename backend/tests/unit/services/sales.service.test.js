@@ -59,6 +59,19 @@ describe('Testing Sales on service layer', function () {
     expect(resultService.itemsSold[0]).to.be.haveOwnProperty('productId');
     expect(resultService.itemsSold[0]).to.be.haveOwnProperty('quantity');
   });
+  it('Test deleteSalesById if not delete sale not found', async function () {
+    sinon.stub(salesModel, 'getSalesById').resolves([]);
+    const id = 0;
+    const resultService = await salesServices.deleteProductById(id);
+    expect(resultService).to.be.equal(undefined);
+  });
+  it('Test deleteSalesById if sales are successfully deleted', async function () {
+    sinon.stub(salesModel, 'getSalesById').resolves(salesMocks.getModelSalesById1);
+    sinon.stub(salesModel, 'deleteSalesById').resolves(2);
+    const id = 1;
+    const resultService = await salesServices.deleteProductById(id);
+    expect(resultService).to.be.equal(2);
+  });
   afterEach(function () {
     sinon.restore();
   });
