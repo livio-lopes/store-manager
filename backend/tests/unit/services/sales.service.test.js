@@ -67,10 +67,12 @@ describe('Testing Sales on service layer', function () {
   });
   it('Test deleteSalesById if sales are successfully deleted', async function () {
     sinon.stub(salesModel, 'getSalesById').resolves(salesMocks.getModelSalesById1);
-    sinon.stub(salesModel, 'deleteSalesById').resolves(2);
+    sinon.stub(salesModel, 'deleteSalesProductsById').resolves(2);
+    sinon.stub(salesModel, 'deleteSalesById').resolves(1);
     const id = 1;
     const resultService = await salesServices.deleteSalesById(id);
-    expect(resultService).to.be.equal(2);
+    expect(resultService.salesProductsTables).to.be.equal(2);
+    expect(resultService.salesTables).to.be.equal(1);
   });
   afterEach(function () {
     sinon.restore();

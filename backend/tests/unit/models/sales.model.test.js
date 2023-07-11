@@ -42,7 +42,7 @@ describe('Testing Sales on model layer', function () {
     const insertId = 4;
     sinon.stub(connection, 'execute').resolves([{ insertId }]);
     const newSale = { saleId: 3, productId: 1, quantity: 1 };
-    const resultModel = await salesModel.deleteSalesProductsById(newSale);
+    const resultModel = await salesModel.setSalesProducts(newSale);
     expect(resultModel).to.be.equal(insertId);
   });
   it('Test if sales with id=1 were deleted on table sales_products', async function () {
