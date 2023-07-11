@@ -19,6 +19,9 @@ const insetDatetimeSales = 'INSERT INTO StoreManager.sales (date) VALUES (NOW())
 const insertSalesProducts = `INSERT INTO StoreManager.sales_products (sale_id,product_id, quantity)
 VALUES (?,?,?); `;
 
+const deleteSales = `DELETE FROM StoreManager.sales_products
+WHERE sale_id = ?;`;
+
 const getAllSales = async () => {
   const [sales] = await connection.execute(selectAllSales);
   return sales;
@@ -41,9 +44,15 @@ const setSalesProducts = async (saleObj) => {
   return insertId;
 };
 
+const deleteSalesById = async (id) => {
+  const [{ affectedRows }] = await connection.execute(deleteSales, [id]);
+  return affectedRows;
+};
+
 module.exports = {
   getAllSales,
   getSalesById,
   setSaleDataTime,
-  setSalesProducts, 
+  setSalesProducts,
+  deleteSalesById, 
 };
