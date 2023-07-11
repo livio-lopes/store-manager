@@ -10,6 +10,7 @@ const { expect } = chai;
 
 const OK = 200;
 const CREATED = 201;
+const NO_CONTENT = 204;
 const NOT_FOUND = 404;
 const massageNotFound = { message: 'Sale not found' };
 
@@ -60,6 +61,28 @@ describe('Test Sales on controller layer', function () {
     await salesController.registerSales(req, res);
     expect(res.status).to.have.been.calledWith(CREATED);
     expect(res.json).to.have.been.calledWith(salesMocks.registerSalesController);
+  });
+  it('Test deleteSalesById case saleId not found', async function () {
+    const req = { params: { id: '0' } };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    sinon.stub(salesServices, 'deleteSalesById').resolves(undefined);
+    await salesController.deleteSalesById(req, res);
+    expect(res.status).to.have.been.calledWith(NOT_FOUND);
+    expect(res.json).to.have.been.calledWith(massageNotFound);
+  });
+  it('Test deleteSalesById case saleId is found', async function () {
+    const req = { params: { id: '1' } };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      end: sinon.stub(),
+    };
+    sinon.stub(salesServices, 'deleteSalesById').resolves(2);
+    await salesController.deleteSalesById(req, res);
+    expect(res.status).to.have.been.calledWith(NO_CONTENT);
+    expect(res.end).to.have.been.calledWith();
   });
   afterEach(function () {
     sinon.restore();
