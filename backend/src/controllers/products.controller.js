@@ -14,6 +14,12 @@ const getProductById = async (req, res) => {
   .json(statusMessage.PRODUCT_NOT_FOUND);
 };
 
+const getProductsByName = async (req, res) => {
+  const { q } = req.query;
+  const product = await productsServices.searchProductByName(q);
+  return res.status(statusCode.OK).json(product);
+};
+
 const addProduct = async (req, res) => {
   const { name } = req.body;
   const newProduct = await productsServices.addProduct(name);
@@ -43,4 +49,5 @@ module.exports = {
   addProduct,
   updateProductById,
   deleteProductById,
+  getProductsByName,
 };
