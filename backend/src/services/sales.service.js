@@ -32,10 +32,10 @@ const deleteSalesById = async (id) => {
 
 const updateQuantity = async (saleId, productId, quantity) => {
   const listSalesProducts = await salesModel.getAllSales();
-  const filterSaleId = listSalesProducts.filter((item) => item.saleId === saleId);
-  if (filterSaleId.length === 0) return 'SALEID_NOTFOUND';
-  const findProductId = filterSaleId.find((item) => item.productId === productId);
-  if (!findProductId) return 'PRODUCTID_NOTFOUND';
+  const filterSaleId = listSalesProducts.filter((item) => item.saleId === Number(saleId));
+  if (filterSaleId.length === 0) return 'SALEID';
+  const findProductId = filterSaleId.find((item) => item.productId === Number(productId));
+  if (!findProductId) return 'PRODUCTID';
   await salesModel.updateQuantityBySaleIdProductId(saleId, productId, quantity);
   return { ...findProductId, quantity };
 };

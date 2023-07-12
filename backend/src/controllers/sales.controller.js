@@ -33,11 +33,11 @@ const updateQuantity = async (req, res) => {
   const { saleId, productId } = req.params;
   const { quantity } = req.body;
   const updatedQuantity = await salesService.updateQuantity(saleId, productId, quantity);
-  switch (updateQuantity) {
+  switch (updatedQuantity) {
     case 'SALEID':
       return res.status(statusCode.NOT_FOUND).json(statusMessage.SALES_NOT_FOUND);
     case 'PRODUCTID':
-      return res.status(statusCode.NOT_FOUND).json(statusMessage.PRODUCT_NOT_FOUND);
+      return res.status(statusCode.NOT_FOUND).json(statusMessage.PRODUCT_NOT_FOUND_SALE);
     default:
       return res.status(statusCode.OK).json(updatedQuantity);
   }

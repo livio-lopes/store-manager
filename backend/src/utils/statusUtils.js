@@ -9,6 +9,7 @@ const statusCode = {
 
 const statusMessage = {
   PRODUCT_NOT_FOUND: { message: 'Product not found' },
+  PRODUCT_NOT_FOUND_SALE: { message: 'Product not found in sale' },
   SALES_NOT_FOUND: { message: 'Sale not found' },
   BAD_REQUEST_NAME_NOTFOUND: { message: '"name" is required' },
   BAD_REQUEST_NAME_INVALID: { message: '"name" length must be at least 5 characters long' },
