@@ -57,6 +57,14 @@ describe('Testing Sales on model layer', function () {
     const resultModel = await salesModel.deleteSalesById(id);
     expect(resultModel).to.be.equal(1);
   });
+  it('Test if quantity is updated on table sales_products', async function () {
+    sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+    const saleId = 1;
+    const productId = 2; 
+    const quantity = 20;
+    const resultModel = await salesModel.updateQuantityBySaleIdProductId(saleId, productId, quantity);
+    expect(resultModel).to.be.equal(1);
+  });
   afterEach(function () {
     sinon.restore();
   });
