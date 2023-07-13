@@ -12,7 +12,8 @@ const OK = 200;
 const CREATED = 201;
 const NO_CONTENT = 204;
 const NOT_FOUND = 404;
-const massageNotFound = { message: 'Sale not found' };
+const messageNotFound = { message: 'Sale not found' };
+const messageProductNotFound = { message: 'Product not found in sale' };
 
 chai.use(sinonChai);
 
@@ -48,7 +49,7 @@ describe('Test Sales on controller layer', function () {
     sinon.stub(salesServices, 'getSalesById').resolves(undefined);
     await salesController.getSalesById(req, res);
     expect(res.status).to.have.been.calledWith(NOT_FOUND);
-    expect(res.json).to.have.been.calledWith(massageNotFound);
+    expect(res.json).to.have.been.calledWith(messageNotFound);
   });
   it('Test sales registred successfully', async function () {
     const req = { body: [{ productId: 1, quantity: 1 },
@@ -71,7 +72,7 @@ describe('Test Sales on controller layer', function () {
     sinon.stub(salesServices, 'deleteSalesById').resolves(undefined);
     await salesController.deleteSalesById(req, res);
     expect(res.status).to.have.been.calledWith(NOT_FOUND);
-    expect(res.json).to.have.been.calledWith(massageNotFound);
+    expect(res.json).to.have.been.calledWith(messageNotFound);
   });
   it('Test deleteSalesById case saleId is found', async function () {
     const req = { params: { id: '1' } };
@@ -83,6 +84,39 @@ describe('Test Sales on controller layer', function () {
     await salesController.deleteSalesById(req, res);
     expect(res.status).to.have.been.calledWith(NO_CONTENT);
     expect(res.end).to.have.been.calledWith();
+  });
+  it('Test updateQuantity case saleId not found', async function () {
+    const req = { params: { saleId: '0', productId: '1' }, body: { quantity: 20 } };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    sinon.stub(salesServices, 'updateQuantity').resolves('SALEID');
+    await salesController.updateQuantity(req, res);
+    expect(res.status).to.have.been.calledWith(NOT_FOUND);
+    expect(res.json).to.have.been.calledWith(messageNotFound);
+  });
+  it('Test updateQuantity case productId not found', async function () {
+    const req = { params: { saleId: '1', productId: '0' }, body: { quantity: 20 } };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    sinon.stub(salesServices, 'updateQuantity').resolves('PRODUCTID');
+    await salesController.updateQuantity(req, res);
+    expect(res.status).to.have.been.calledWith(NOT_FOUND);
+    expect(res.json).to.have.been.calledWith(messageProductNotFound);
+  });
+  it('Test updateQuantity case quantity is updated', async function () {
+    const req = { params: { saleId: '1', productId: '1' }, body: { quantity: 20 } };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    const mockService = { ...salesMocks.getAllSales[0], quantity: 20 };
+    sinon.stub(salesServices, 'updateQuantity').resolves(mockService);
+    await salesController.updateQuantity(req, res);
+    expect(res.status).to.have.been.calledWith(OK);
   });
   afterEach(function () {
     sinon.restore();
