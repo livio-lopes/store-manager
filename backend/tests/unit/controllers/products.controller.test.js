@@ -111,6 +111,17 @@ describe('Test Products on Controller Layer', function () {
       expect(res.status).to.have.been.calledWith(NO_CONTENT);
       expect(res.end).to.have.been.calledWith();
     });
+    it('Test getProductsByName case q=Thor', async function () {
+      const req = { query: { q: 'Thor' } };
+      const res = {
+        status: sinon.stub().returnsThis(),
+        json: sinon.stub(),
+      };
+      sinon.stub(productsServices, 'searchProductByName').resolves([productsMocks.getAllProducts[0]]);
+      await productsController.getProductsByName(req, res);
+      expect(res.status).to.have.been.calledWith(OK);
+      expect(res.json).to.have.been.calledWith([productsMocks.getAllProducts[0]]);
+    });
     afterEach(function () {
       sinon.restore();
     });
