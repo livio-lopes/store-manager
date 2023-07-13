@@ -68,6 +68,23 @@ describe('Testing Products on Services Layer', function () {
     const resultService = await productsServices.deleteProductById(id);
     expect(resultService).to.be.equal(1);
   });
+  it('Test searchProductByName case query is undefined', async function () {
+    sinon.stub(productsModel, 'getAllProducts').resolves(productsMocks.getAllProducts);
+    const resultService = await productsServices.searchProductByName();
+    expect(resultService).to.be.deep.equal(productsMocks.getAllProducts);
+  });
+  it('Test searchProductByName case name not include', async function () {
+    sinon.stub(productsModel, 'getAllProducts').resolves(productsMocks.getAllProducts);
+    const q = 'Não incluso';
+    const resultService = await productsServices.searchProductByName(q);
+    expect(resultService).to.be.deep.equal([]);
+  });
+  it('Test searchProductByName case name Thor is include', async function () {
+    sinon.stub(productsModel, 'getAllProducts').resolves(productsMocks.getAllProducts);
+    const q = 'Thor';
+    const resultService = await productsServices.searchProductByName(q);
+    expect(resultService).to.be.deep.equal([productsMocks.getAllProducts[0]]);
+  });
   afterEach(function () {
     sinon.restore();
   });
