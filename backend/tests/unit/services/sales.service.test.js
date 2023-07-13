@@ -74,6 +74,32 @@ describe('Testing Sales on service layer', function () {
     expect(resultService.salesProductsTables).to.be.equal(2);
     expect(resultService.salesTables).to.be.equal(1);
   });
+  it('Test updateQuantity case saleId not found', async function () {
+    sinon.stub(salesModel, 'getAllSales').resolves(salesMocks.getAllSales);
+    const saleId = 0;
+    const productId = 1;
+    const quantity = 20;
+    const resultService = await salesServices.updateQuantity(saleId, productId, quantity);
+    expect(resultService).to.be.equal('SALEID');
+  });
+  it('Test updateQuantity case productId not found', async function () {
+    sinon.stub(salesModel, 'getAllSales').resolves(salesMocks.getAllSales);
+    const saleId = 1;
+    const productId = 0;
+    const quantity = 20;
+    const resultService = await salesServices.updateQuantity(saleId, productId, quantity);
+    expect(resultService).to.be.equal('PRODUCTID');
+  });
+  it('Test updateQuantity case quantity is updated', async function () {
+    sinon.stub(salesModel, 'getAllSales').resolves(salesMocks.getAllSales);
+    sinon.stub(salesModel, 'updateQuantityBySaleIdProductId').resolves();
+    const saleId = 1;
+    const productId = 1;
+    const quantity = 20;
+    const mockResult = { ...salesMocks.getAllSales[0], quantity };
+    const resultService = await salesServices.updateQuantity(saleId, productId, quantity);
+    expect(resultService).to.be.deep.equal(mockResult);
+  });
   afterEach(function () {
     sinon.restore();
   });
