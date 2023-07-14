@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 chai.use(sinonChai);
 const { expect } = chai;
 
-describe.only('Test integration CRUD on /sales', function () {
+describe('Test integration CRUD on /sales', function () {
   it('Test endpoint GET /sales', async function () {
     sinon.stub(connection, 'execute').resolves([salesMocks.getAllSales]);
     const response = await chai.request(app).get('/sales');
