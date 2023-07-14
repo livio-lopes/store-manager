@@ -11,7 +11,7 @@ chai.use(chaiHttp);
 chai.use(sinonChai);
 const { expect } = chai;
 
-describe('Test CRUD on /products', function () {
+describe('Test integration CRUD on /products', function () {
   it('Test endpoint GET /products if returns list with all products', async function () {
     sinon.stub(connection, 'execute').resolves([productsMocks.getAllProducts]);
     const response = await chai.request(app).get('/products');
