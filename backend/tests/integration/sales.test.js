@@ -3,6 +3,7 @@ const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 const chaiHttp = require('chai-http');
 const salesMocks = require('../unit/mocks/salesMocks');
+const productMocks = require('../unit/mocks/productsMocks');
 const connection = require('../../src/models/connection');
 const app = require('../../src/app');
 const { statusCode } = require('../../src/utils/statusUtils');
@@ -25,12 +26,12 @@ describe.only('Test integration CRUD on /sales', function () {
     expect(response.body).to.be.deep.equal(salesMocks.getServiceSalesById1);
   });
   it('Test endpoint POST /sales', async function () {
-    sinon.stub(connection, 'execute')
-    .onFirstCall().resolves([{ insertId: 3 }])
-    .onSecondCall()
-.resolves([{ insertId: 4 }])
-.onThirdCall()
-.resolves([{ insertId: 5 }]);
+   const mockConnection = sinon.stub(connection, 'execute');
+   mockConnection.onCall(0).resolves([productMocks.getAllProducts]);
+   mockConnection.onCall(1).resolves([{ insertId: 3 }]);
+   mockConnection.onCall(2).resolves([{ insertId: 4 }]);
+   mockConnection.onCall(3).resolves([{ insertId: 5 }]);
+
     const mockSend = [
       {
         productId: 1,
@@ -58,8 +59,23 @@ describe.only('Test integration CRUD on /sales', function () {
     expect(response).to.be.status(statusCode.CREATED);
     expect(response.body).to.be.deep.equal(mockBody);
   });
-  it.skip('Test endpoint PUT /:saleId/products/:productId/quantity');
-  it.skip('Test endpoint DELETE /sales/:id');
+  it('Test endpoint PUT /:saleId/products/:productId/quantity', async function () {
+    const mockConnection = sinon.stub(connection, 'execute');
+    mockConnection.onCall(0).resolves([salesMocks.getAllSales]);
+    mockConnection.onCall(1).resolves([{ affectedRows: 1 }]);
+    const response = await chai.request(app).put('/sales/1/products/1/quantity').send({ quantity: 20 });
+    const mockBody = { ...salesMocks.getAllSales[0], quantity: 20 };
+    expect(response).to.be.status(statusCode.OK);
+    expect(response.body).to.be.deep.equal(mockBody);
+  });
+  it('Test endpoint DELETE /sales/:id', async function () {
+    const mockConnection = sinon.stub(connection, 'execute');
+    mockConnection.onCall(0).resolves([salesMocks.getModelSalesById1]);
+    mockConnection.onCall(1).resolves([{ affectedRows: 1 }]);
+    mockConnection.onCall(2).resolves([{ affectedRows: 1 }]);
+    const response = await chai.request(app).delete('/sales/1');
+    expect(response).to.be.status(statusCode.NO_CONTENT);
+  });
   afterEach(function () {
     sinon.restore();
   });
