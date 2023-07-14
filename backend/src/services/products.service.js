@@ -5,11 +5,6 @@ const getAllProducts = async () => {
   return products;
 };
 
-const getProductByName = async (getName) => {
-  const listProducts = await productsModel.getAllProducts();
-  const product = listProducts.find((p) => p.name === getName);
-  return product;
-};
 const getProductById = async (id) => {
   const product = await productsModel.getProductById(id);
   return product;
@@ -43,7 +38,6 @@ const deleteProductById = async (id) => {
 module.exports = {
   getAllProducts,
   getProductById,
-  getProductByName,
   addProduct,
   updateProductById,
   deleteProductById,

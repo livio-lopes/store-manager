@@ -13,6 +13,7 @@ describe('Testing Products on Services Layer', function () {
     expect(resultService).to.be.equal(productsMocks.getAllProducts);
     expect(resultService).to.be.instanceOf(Array);
     expect(resultService).to.be.length(3);
+    expect(resultService).to.be.deep.equal(productsMocks.getAllProducts);
   });
   it('Test return from getProductById with id = 3', async function () {
     sinon.stub(productsModel, 'getProductById').resolves(productsMocks.getProductById3);
