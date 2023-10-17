@@ -4,7 +4,7 @@
 Desenvolvi em `Javascript` uma API RESTfull utilizando arquitetura de camadas, Model Service e Controller (MSC), com cobertura de testes. O papel dessa API é simular um sistema de gerenciamento de vendas onde é possível criar, visualizar, deletar e atualizar produtos e vendas. E foi usando o `MySQL` para gestão dos dados.
 
 ## Diagrama de Entidade Relacionamento
-![DER](https://dsm01pap008files.storage.live.com/y4mq8kaKKwV1GFNgVjfr3g99g9A5busFVQ8y0LDtqHIyQ-UCG9dlaWTCBokkUHpt4xfBb7pshB8uOlABmtNk8fjusSuwaMUnk7sp3yV8eP6XOctuVhzKjL9Br8Q8_VuAS6QIEHyiyTfdBk92t8Ooelvy4hpsJU3VIuBKbwZ2eU2ZXoFU2s4lPl_WrR-iOuRAOc4dpztJqhzdb-rs8E-ngoB9-89N8CWQkic-JCuxrP_EK0?encodeFailures=1&width=205&height=55)
+![DER](https://1drv.ms/i/s!Aml9VnXbwhlmhbgxvgO6ngt5oXzmfA?e=8Kj4IQ)
 
 
 
