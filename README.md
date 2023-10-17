@@ -6,7 +6,7 @@ Desenvolvi em `Javascript` uma API RESTfull utilizando arquitetura de camadas, M
 ## Diagrama de Entidade Relacionamento
 ![DER](https://dsm01pap008files.storage.live.com/y4m3uczhm_SL4jm3UwzQ8fXsUdBjkjpXn2zl0mjK2NJOWn7JJuJHSE3_3lmUppXlMe-PAPtXF85EAIre75MQ1O5bvjIlVOqSxu3XT8zKr-rimK7f2MxFtFTIzkcB4If2GvZPHuvN8GuIia-Xg861kKRIwuP8N6BPrFoO1DqDOVVLS1vVRQ6Rde1SkDkwfUuwyXz_Fbv_D7UIdWu6zlwe33dKWTBkeAS5MGV5bXO4nL0nEg?encodeFailures=1&width=1593&height=491)
 
-## Quais desafios que eu colaborei?
+## Que desafios eu desenvolvi?
 1. Listar os produtos: `GET /products e /products/:id`
 2. Listar as vendas: `GET /sales e /sales/:id`
 3. Cadastrar produtos: `POST /products`
